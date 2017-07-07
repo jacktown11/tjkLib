@@ -1,0 +1,7 @@
+
+/*渐变背景图像*/
+element{
+	background: #ccc ulr(gradient.gif) repeat-x;
+	/*背景颜色和渐变图像底部颜色一致*/
+}
+
