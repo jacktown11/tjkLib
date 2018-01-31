@@ -1,4 +1,3 @@
-
 function EventTargetTJK(){
 	this.handlers = {};
 }
@@ -76,7 +75,7 @@ var EventUtilTJK = {
 		}
 	},
 	DragDropTJK = function(){
-		var dragdrop = new EventTarget(),
+		var dragdrop = new EventTargetTJK(),
 			dragging = null,
 			diffX = 0,
 			diffY = 0;
@@ -88,8 +87,13 @@ var EventUtilTJK = {
 				case "mousedown":
 					if(target.className.indexOf("draggable") > -1){
 						dragging = target;
-						diffX = event.clientX - target.offsetLeft;
-						diffY = event.clientY - target.offsetHeight;
+						diffX = event.clientX - parseInt(
+							document.defaultView.getComputedStyle(target,null).left 
+						|| target.currentStyle.left);
+						diffY = event.clientY - parseInt(
+							document.defaultView.getComputedStyle(target,null).top 
+						|| target.currentStyle.top);
+
 						dragdrop.fire({
 							type: "dragstart",
 							target: dragging,
@@ -100,8 +104,8 @@ var EventUtilTJK = {
 					break;
 				case "mousemove":
 					if(dragging !== null){
-						target.offsetLeft = event.clientX - diffX;
-						target.offsetTop = event.clientY -diffY;
+						target.style.left = (event.clientX - diffX) + "px";
+						target.style.top = (event.clientY - diffY) + "px";
 						dragdrop.fire({
 								type: "drag",
 								target: dragging,
@@ -122,7 +126,7 @@ var EventUtilTJK = {
 					}
 					break;
 			}
-		}();
+		};
 
 		dragdrop.enable = function(){
 			EventUtilTJK.addHandler(document,"mousedown",handleEvent);
@@ -136,7 +140,7 @@ var EventUtilTJK = {
 		};
 
 		return dragdrop;
-	};
+	}();
 
 
 function getRandomIntTJK(minNum,maxNum){
