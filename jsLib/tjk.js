@@ -33,7 +33,7 @@ let tjk = {
                     switch(config.dataType.toLowerCase()){
                         case 'json': 
                             if(window.JSON && JSON.parse){
-                                data = JSON.success(xhr.responseText);
+                                data = JSON.parse(xhr.responseText);
                             }else{
                                 data = eval(xhr.responseText);
                             }
